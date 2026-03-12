@@ -2,36 +2,40 @@
 
 from enum import Enum
 
+
 class TestLayer(Enum):
-    """Test layerlərini təmsil edən enum"""
+    """Test layerlərini təmsil edən enum."""
     UNIT = "unit"
     INTEGRATION = "integration"
     API = "api"
 
 
 class ChangeType(Enum):
-    """Sistemdəki dəyişiklik növlərini təmsil edən enum."""
-    ADDITION = "addition"
-    DELETION = "deletion"
-    MODIFICATION = "modification"
+    """Dəyişmiş faylın növünü bildirir."""
+    ADDED = "added"
+    DELETED = "deleted"
+    MODIFIED = "modified"
+    RENAMED = "renamed"
 
 
-class ReasonType(Enum):
-    """Dəyişiklik və əməliyyatın arxasındakı əsas səbəbi bildirir"""
-    BUG_FIX = "bug_fix"
-    FEATURE_ADDITION = "feature_addition"
-    REFACTORING = "refactoring"
-    PERFORMANCE_IMPROVEMENT = "performance_improvement"
+class SelectionReason(Enum):
+    """Testin niyə seçildiyini bildirir."""
+    DIRECT_COVERAGE = "direct_coverage"
+    """Dəyişən sətir birbaşa bu test tərəfindən əhatə olunur."""
 
-class ConfidenceLevel(Enum):
-    """Sistemin və ya modelin qərarına inam dərəcəsini göstərir"""
-    LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
-    CRITICAL = "critical"
+    INDIRECT_COVERAGE = "indirect_coverage"
+    """Dəyişən sətir dolayı yolla (import/çağırış zənciri) əhatə olunur."""
+
+    HEURISTIC = "heuristic"
+    """Əhatə məlumatı yoxdur; evristik qaydaya görə seçilib."""
+
+    ALWAYS_RUN = "always_run"
+    """Hər zaman işlədilməli olan test (məs. smoke, conftest dəyişikliyi)."""
 
 
-class ExecutionMode(Enum):
-    """Testlərin icra rejimini təmsil edən enum"""
-    AUTOMATIC = "automatic"
-    MANUAL = "manual"
+class ExecutionStatus(Enum):
+    """Bir testin icra nəticəsi."""
+    PASSED = "passed"
+    FAILED = "failed"
+    ERROR = "error"
+    SKIPPED = "skipped"
