@@ -1,0 +1,129 @@
+# Test Impact Tool
+
+## Niyə `.test-impact/`?
+
+Artifact-ları source code-dan ayırırsan:
+
+- Silmək rahatdır
+- CI cache etmək rahatdır
+- Debug etmək rahatdır
+
+---
+
+## Modulların məsuliyyəti
+
+### `config.py`
+Bütün konfiqurasiyalar:
+- Artifacts path
+- Source roots
+- Test roots
+- Critical files
+- Fallback rules
+- Base branch default
+
+### `models.py`
+Data modellər:
+- `TestCase`
+- `CoverageArtifact`
+- `ChangedFile`
+- `SelectionReason`
+- `ImpactSelectionResult`
+
+### `storage.py`
+JSON oxu/yaz:
+- `inventory` save/load
+- `coverage_map` save/load
+- `report` save/load
+
+### `inventory.py`
+Pytest `collect-only` ilə testləri tapır.
+
+### `coverage_collect.py`
+Hər test üçün coverage toplayır.
+
+### `diff_parser.py`
+Git diff parse edir.
+
+### `selector.py`
+Changed lines + coverage map → impacted tests.
+
+### `runner.py`
+Seçilmiş testləri pytest ilə işə salır.
+
+### `reporter.py`
+Terminal/JSON report çıxarır.
+
+### `dependency_graph.py`
+V2 üçün static import graph.
+
+### `heuristics.py`
+Special case rules:
+- `conftest.py`
+- `pyproject.toml`
+- Migrations
+- Fixtures
+- Test utilities
+
+### `cli.py`
+Bütün command-ları expose edir.
+
+
+
+myapp/tools/test_impact/
+  __init__.py
+  cli.py
+
+  config/
+    __init__.py
+    settings.py
+    policies.py
+
+  domain/
+    __init__.py
+    enums.py
+    models.py
+    interfaces.py
+
+  storage/
+    __init__.py
+    artifacts.py
+    repository.py
+    json_store.py
+
+  collectors/
+    __init__.py
+    test_catalog.py
+    runtime_trace.py
+    git_diff.py
+    dependency_graph.py
+    symbol_index.py
+
+  selection/
+    __init__.py
+    engine.py
+    reasons.py
+    heuristics.py
+    confidence.py
+    matchers.py
+
+  execution/
+    __init__.py
+    planner.py
+    runner.py
+    batching.py
+
+  reporting/
+    __init__.py
+    console.py
+    json_report.py
+
+  validation/
+    __init__.py
+    miss_detector.py
+    metrics.py
+
+  utils/
+    __init__.py
+    paths.py
+    subprocess_utils.py
+    ast_utils.py
